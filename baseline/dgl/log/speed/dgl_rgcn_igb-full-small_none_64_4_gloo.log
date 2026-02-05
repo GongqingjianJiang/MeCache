@@ -1,0 +1,295 @@
+The number of OMP threads per trainer is set to 8
+clientcmd source /gf3/home/jgqj/anaconda3/bin/activate hiscache;module add cuda/11.7;cd /gf3/home/jgqj/test_code/hydro/baseline/dgl; (export DGL_ROLE=server DGL_NUM_SAMPLER=0 OMP_NUM_THREADS=1 DGL_NUM_CLIENT=4 DGL_CONF_PATH=partitions/heta/igb-full-small_1parts_depth_3/igb-full-small.json DGL_IP_CONFIG=ip_config_gn71.txt DGL_NUM_SERVER=1 DGL_GRAPH_FORMAT=csc DGL_KEEP_ALIVE=0  DGL_SERVER_ID=0; python3 train_dist.py --graph_name igb-full-small --model rgcn --ip_config ip_config_gn71.txt --num_epochs 3 --batch_size 1024 --n_classes 19 --predict_category paper --eval_every 1 --fan_out 5,10,15 --num_hidden 256 --embed_dim 64 --part_dir partitions/heta/igb-full-small_1parts_depth_3 --num_gpus 4 --dgl-sparse --cache-method none --num_layers 3 --ntypes-w-feats paper,author,institute,conference,fos,journal --no-test --backend gloo)
+clientcmd source /gf3/home/jgqj/anaconda3/bin/activate hiscache;module add cuda/11.7;cd /gf3/home/jgqj/test_code/hydro/baseline/dgl; (export DGL_DIST_MODE=distributed DGL_ROLE=client DGL_NUM_SAMPLER=0 DGL_NUM_CLIENT=4 DGL_CONF_PATH=partitions/heta/igb-full-small_1parts_depth_3/igb-full-small.json DGL_IP_CONFIG=ip_config_gn71.txt DGL_NUM_SERVER=1 DGL_GRAPH_FORMAT=csc OMP_NUM_THREADS=8 DGL_GROUP_ID=0 ; python3 -m torch.distributed.launch --nproc_per_node=4 --nnodes=1 --node_rank=0 --master_addr=192.180.32.70 --master_port=1234 train_dist.py --graph_name igb-full-small --model rgcn --ip_config ip_config_gn71.txt --num_epochs 3 --batch_size 1024 --n_classes 19 --predict_category paper --eval_every 1 --fan_out 5,10,15 --num_hidden 256 --embed_dim 64 --part_dir partitions/heta/igb-full-small_1parts_depth_3 --num_gpus 4 --dgl-sparse --cache-method none --num_layers 3 --ntypes-w-feats paper,author,institute,conference,fos,journal --no-test --backend gloo)
+Namespace(backend='gloo', batch_size=1024, batch_size_eval=1024, cache_method='none', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn71.txt', local_rank=2, log_every=20, lr=0.0001, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, num_layers=3, pad_data=False, part_dir='partitions/heta/igb-full-small_1parts_depth_3', predict_category='paper', seed=42, sparse_lr=1e-05, standalone=False)
+gn71 Initializing DGL dist
+Namespace(backend='gloo', batch_size=1024, batch_size_eval=1024, cache_method='none', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn71.txt', local_rank=1, log_every=20, lr=0.0001, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, num_layers=3, pad_data=False, part_dir='partitions/heta/igb-full-small_1parts_depth_3', predict_category='paper', seed=42, sparse_lr=1e-05, standalone=False)
+gn71 Initializing DGL dist
+Namespace(backend='gloo', batch_size=1024, batch_size_eval=1024, cache_method='none', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn71.txt', local_rank=0, log_every=20, lr=0.0001, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, num_layers=3, pad_data=False, part_dir='partitions/heta/igb-full-small_1parts_depth_3', predict_category='paper', seed=42, sparse_lr=1e-05, standalone=False)
+gn71 Initializing DGL dist
+Namespace(backend='gloo', batch_size=1024, batch_size_eval=1024, cache_method='none', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn71.txt', local_rank=3, log_every=20, lr=0.0001, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, num_layers=3, pad_data=False, part_dir='partitions/heta/igb-full-small_1parts_depth_3', predict_category='paper', seed=42, sparse_lr=1e-05, standalone=False)
+gn71 Initializing DGL dist
+Client [2570644] waits on 192.180.32.70:45413
+Client [2570645] waits on 192.180.32.70:47267
+Client [2570642] waits on 192.180.32.70:39935
+Client [2570643] waits on 192.180.32.70:38251
+Machine (0) group (0) client (0) connect to server successfuly!
+Machine (0) group (0) client (1) connect to server successfuly!
+Machine (0) group (0) client (2) connect to server successfuly!
+Machine (0) group (0) client (3) connect to server successfuly!
+get world size 4
+rank 0, local rank 0, machine rank 0
+get world size 4get world size 4
+
+rank 3, local rank 3, machine rank 0
+get world size 4
+rank 2, local rank 2, machine rank 0
+rank 1, local rank 1, machine rank 0
+rank 3 device cuda:3
+rank 1 device cuda:1
+rank 2 device cuda:2
+rank 0 device cuda:0
+path partitions/heta/igb-full-small_1parts_depth_3/part0/graph.dgl
+copying graph to shared memory takes 0.951 seconds
+copying author feat to shared memory
+new_arr /igb-full-small_node_author_feat created! start to copy......
+new_arr shape=(1926066, 1024), dtype=float32
+new_arr /igb-full-small_node_author_feat copy done
+copying author feat to shared memory done
+copying conference feat to shared memory
+new_arr /igb-full-small_node_conference_feat created! start to copy......
+new_arr shape=(1215, 1024), dtype=float32
+new_arr /igb-full-small_node_conference_feat copy done
+copying conference feat to shared memory done
+copying fos feat to shared memory
+new_arr /igb-full-small_node_fos_feat created! start to copy......
+new_arr shape=(190449, 1024), dtype=float32
+new_arr /igb-full-small_node_fos_feat copy done
+copying fos feat to shared memory done
+copying institute feat to shared memory
+new_arr /igb-full-small_node_institute_feat created! start to copy......
+new_arr shape=(14751, 1024), dtype=float32
+new_arr /igb-full-small_node_institute_feat copy done
+copying institute feat to shared memory done
+copying journal feat to shared memory
+new_arr /igb-full-small_node_journal_feat created! start to copy......
+new_arr shape=(15277, 1024), dtype=float32
+new_arr /igb-full-small_node_journal_feat copy done
+copying journal feat to shared memory done
+copying paper test_mask to shared memory
+new_arr /igb-full-small_node_paper_test_mask created! start to copy......
+new_arr shape=(1000000,), dtype=uint8
+new_arr /igb-full-small_node_paper_test_mask copy done
+copying paper test_mask to shared memory done
+copying paper val_mask to shared memory
+new_arr /igb-full-small_node_paper_val_mask created! start to copy......
+new_arr shape=(1000000,), dtype=uint8
+new_arr /igb-full-small_node_paper_val_mask copy done
+copying paper val_mask to shared memory done
+copying paper train_mask to shared memory
+new_arr /igb-full-small_node_paper_train_mask created! start to copy......
+new_arr shape=(1000000,), dtype=uint8
+new_arr /igb-full-small_node_paper_train_mask copy done
+copying paper train_mask to shared memory done
+copying paper label to shared memory
+new_arr /igb-full-small_node_paper_label created! start to copy......
+new_arr shape=(1000000,), dtype=float32
+new_arr /igb-full-small_node_paper_label copy done
+copying paper label to shared memory done
+copying paper feat to shared memory
+new_arr /igb-full-small_node_paper_feat created! start to copy......
+new_arr shape=(1000000, 1024), dtype=float32
+new_arr /igb-full-small_node_paper_feat copy done
+copying paper feat to shared memory done
+copying node features to shared memory takes 8.313 seconds
+Rank 0: loaded graph
+loading graph from shared memory takes 0.037 seconds
+Rank 1: loaded graph
+loading graph from shared memory takes 0.044 seconds
+loading graph from shared memory takes 0.044 seconds
+Rank 2: loaded graph
+Rank 3: loaded graph
+fanouts: [5, 10, 15]
+fanouts: [5, 10, 15]
+fanouts: [5, 10, 15]
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+rank 1 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+rank 2 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+rank 3 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+node author has data feat
+node author has data feat
+node author has data feat
+node conference has data feat
+node conference has data feat
+node fos has data feat
+node conference has data feat
+node fos has data feat
+node institute has data feat
+node institute has data feat
+node fos has data feat
+node journal has data feat
+node journal has data feat
+node paper has data feat
+node paper has data feat
+created RGCN with etypes: ['rev_topic', 'rev_writes', 'rev_published', 'venue', 'cites', 'published', 'rev_affiliated_with', 'writes', 'topic', 'rev_venue']
+created RGCN with etypes: ['rev_topic', 'rev_writes', 'rev_published', 'venue', 'cites', 'published', 'rev_affiliated_with', 'writes', 'topic', 'rev_venue']
+node institute has data feat
+node journal has data feat
+node paper has data feat
+created RGCN with etypes: ['rev_topic', 'rev_writes', 'rev_published', 'venue', 'cites', 'published', 'rev_affiliated_with', 'writes', 'topic', 'rev_venue']
+fanouts: [5, 10, 15]
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+rank 0 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+node author has data feat
+node conference has data feat
+node fos has data feat
+node institute has data feat
+node journal has data feat
+node paper has data feat
+created RGCN with etypes: ['rev_topic', 'rev_writes', 'rev_published', 'venue', 'cites', 'published', 'rev_affiliated_with', 'writes', 'topic', 'rev_venue']
+Rank 2 created model: rgcn
+Rank 1 created model: rgcn
+Rank 0 created model: rgcn
+Rank 3 created model: rgcn
+Rank 3 created DDP modelRank 2 created DDP model
+
+Rank 1 created DDP model
+Rank 0 created DDP model
+Rank 0 created DDP embed project layer
+Rank 2 created DDP embed project layer
+Rank 0 before creat DGL sparse embedding: dict_keys([])
+Rank 3 created DDP embed project layer
+Rank 2 before creat DGL sparse embedding: dict_keys([])
+Rank 3 before creat DGL sparse embedding: dict_keys([])
+Rank 1 created DDP embed project layer
+Rank 1 before creat DGL sparse embedding: dict_keys([])
+Part 0 | Epoch 00000 | Step 00000 | Loss 2.9617 | Train Acc 0.0286 | Speed (samples/sec) nan | GPU 7.0 GB | time 7.923 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5840654336.000 MB, nvidia_smi_mem: 6.984 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5919106560.000 MB, nvidia_smi_mem: 6.984 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5886464512.000 MB, nvidia_smi_mem: 6.984 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5834157568.000 MB, nvidia_smi_mem: 6.984 GB
+Part 0 | Epoch 00000 | Step 00020 | Loss 2.4280 | Train Acc 0.3359 | Speed (samples/sec) 666.5997 | GPU 11.1 GB | time 1.552 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5937694208.000 MB, nvidia_smi_mem: 11.136 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5946886144.000 MB, nvidia_smi_mem: 11.136 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5910152704.000 MB, nvidia_smi_mem: 11.136 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5957352448.000 MB, nvidia_smi_mem: 11.136 GB
+Part 0 | Epoch 00000 | Step 00040 | Loss 1.9298 | Train Acc 0.4150 | Speed (samples/sec) 691.1844 | GPU 13.1 GB | time 1.437 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5937694208.000 MB, nvidia_smi_mem: 13.138 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5946886144.000 MB, nvidia_smi_mem: 13.138 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 13.138 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5958035456.000 MB, nvidia_smi_mem: 13.138 GB
+Part 0 | Epoch 00000 | Step 00060 | Loss 1.5922 | Train Acc 0.5247 | Speed (samples/sec) 704.0305 | GPU 17.2 GB | time 1.406 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5963955712.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5958035456.000 MB, nvidia_smi_mem: 17.156 GB
+Part 0 | Epoch 00000 | Step 00080 | Loss 1.2857 | Train Acc 0.6050 | Speed (samples/sec) 710.0978 | GPU 17.2 GB | time 1.408 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5963955712.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5958035456.000 MB, nvidia_smi_mem: 17.156 GB
+Part 0 | Epoch 00000 | Step 00100 | Loss 1.1351 | Train Acc 0.6450 | Speed (samples/sec) 714.3571 | GPU 17.2 GB | time 1.402 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.160 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.160 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.160 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.160 GB
+
+Part 0 | Epoch 00000 | Step 00120 | Loss 1.0313 | Train Acc 0.6765 | Speed (samples/sec) 717.4908 | GPU 17.2 GB | time 1.398 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.152 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.152 GB
+
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.152 GB
+Part 0 | Epoch 00000 | Step 00140 | Loss 0.9580 | Train Acc 0.6843 | Speed (samples/sec) 720.6574 | GPU 17.2 GB | time 1.385 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.152 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.152 GB
+
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.152 GB
+Part 0, Epoch Time(s): 232.5598, sample: 17.8646, feat_copy: 174.9788, forward: 12.5038, backward: 25.9544, model update: 0.7523, emb update: 0.0002 #seeds: 149504, #inputs: 133233700, #tot_num_w_feat: 133233700, #tot_num_wo_feat: 0
+Part 1, Epoch Time(s): 232.5598, sample: 17.8646, feat_copy: 174.9788, forward: 12.5038, backward: 25.9544, model update: 0.7523, emb update: 0.0002 #seeds: 149504, #inputs: 133274240, #tot_num_w_feat: 133274240, #tot_num_wo_feat: 0
+Part 3, Epoch Time(s): 232.5598, sample: 17.8646, feat_copy: 174.9788, forward: 12.5038, backward: 25.9544, model update: 0.7523, emb update: 0.0002 #seeds: 149504, #inputs: 133195011, #tot_num_w_feat: 133195011, #tot_num_wo_feat: 0
+Part 2, Epoch Time(s): 232.5598, sample: 17.8646, feat_copy: 174.9788, forward: 12.5038, backward: 25.9544, model update: 0.7523, emb update: 0.0002 #seeds: 149504, #inputs: 133102226, #tot_num_w_feat: 133102226, #tot_num_wo_feat: 0
+Part 0 | Epoch 00001 | Step 00000 | Loss 0.9952 | Train Acc 0.6663 | Speed (samples/sec) 721.4470 | GPU 17.2 GB | time 1.365 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.162 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.162 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.162 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.162 GB
+Part 0 | Epoch 00001 | Step 00020 | Loss 0.9160 | Train Acc 0.6978 | Speed (samples/sec) 723.8245 | GPU 17.2 GB | time 1.383 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5975520256.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.156 GB
+Part 0 | Epoch 00001 | Step 00040 | Loss 0.8602 | Train Acc 0.7146 | Speed (samples/sec) 726.1314 | GPU 17.2 GB | time 1.375 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.158 GB
+Part 0 | Epoch 00001 | Step 00060 | Loss 0.8335 | Train Acc 0.7117 | Speed (samples/sec) 727.8641 | GPU 17.2 GB | time 1.377 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.156 GB
+Part 0 | Epoch 00001 | Step 00080 | Loss 0.8143 | Train Acc 0.7214 | Speed (samples/sec) 729.1571 | GPU 17.2 GB | time 1.381 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.158 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5978176512.000 MB, nvidia_smi_mem: 17.158 GB
+
+Part 0 | Epoch 00001 | Step 00100 | Loss 0.8134 | Train Acc 0.7195 | Speed (samples/sec) 730.0455 | GPU 17.2 GB | time 1.385 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.158 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.158 GB
+Part 0 | Epoch 00001 | Step 00120 | Loss 0.7902 | Train Acc 0.7207 | Speed (samples/sec) 731.6294 | GPU 17.2 GB | time 1.364 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.152 GB
+Part 0 | Epoch 00001 | Step 00140 | Loss 0.7462 | Train Acc 0.7407 | Speed (samples/sec) 732.8948 | GPU 17.2 GB | time 1.367 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.154 GB
+Part 0, Epoch Time(s): 217.4178, sample: 16.6233, feat_copy: 168.3168, forward: 6.8238, backward: 24.5432, model update: 0.7202, emb update: 0.0002 #seeds: 149504, #inputs: 133210709, #tot_num_w_feat: 133210709, #tot_num_wo_feat: 0Part 1, Epoch Time(s): 217.4178, sample: 16.6233, feat_copy: 168.3168, forward: 6.8238, backward: 24.5432, model update: 0.7202, emb update: 0.0002 #seeds: 149504, #inputs: 133274267, #tot_num_w_feat: 133274267, #tot_num_wo_feat: 0
+
+Part 3, Epoch Time(s): 217.4178, sample: 16.6233, feat_copy: 168.3168, forward: 6.8238, backward: 24.5432, model update: 0.7202, emb update: 0.0002 #seeds: 149504, #inputs: 133174804, #tot_num_w_feat: 133174804, #tot_num_wo_feat: 0
+Part 2, Epoch Time(s): 217.4178, sample: 16.6233, feat_copy: 168.3168, forward: 6.8238, backward: 24.5432, model update: 0.7202, emb update: 0.0002 #seeds: 149504, #inputs: 133117848, #tot_num_w_feat: 133117848, #tot_num_wo_feat: 0
+Part 0 | Epoch 00002 | Step 00000 | Loss 0.7412 | Train Acc 0.7351 | Speed (samples/sec) 733.3557 | GPU 17.2 GB | time 1.356 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.154 GB
+Part 0 | Epoch 00002 | Step 00020 | Loss 0.7284 | Train Acc 0.7378 | Speed (samples/sec) 733.5686 | GPU 17.2 GB | time 1.391 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5983768064.000 MB, nvidia_smi_mem: 17.160 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.160 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.160 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.160 GB
+
+Part 0 | Epoch 00002 | Step 00040 | Loss 0.7670 | Train Acc 0.7253 | Speed (samples/sec) 734.5030 | GPU 17.2 GB | time 1.368 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 6038687232.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.152 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.152 GB
+Part 0 | Epoch 00002 | Step 00060 | Loss 0.7181 | Train Acc 0.7463 | Speed (samples/sec) 735.3859 | GPU 17.2 GB | time 1.367 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.156 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 6038687232.000 MB, nvidia_smi_mem: 17.156 GB
+
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.156 GB
+Part 0 | Epoch 00002 | Step 00080 | Loss 0.7122 | Train Acc 0.7476 | Speed (samples/sec) 736.2932 | GPU 17.2 GB | time 1.362 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.169 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.169 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.169 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 6038687232.000 MB, nvidia_smi_mem: 17.169 GB
+
+
+Part 0 | Epoch 00002 | Step 00100 | Loss 0.7202 | Train Acc 0.7444 | Speed (samples/sec) 737.3505 | GPU 17.2 GB | time 1.353 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.156 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.156 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.156 GB
+
+max_device_mem 25307578368.000 MB, max_allocated_mem 6038687232.000 MB, nvidia_smi_mem: 17.156 GB
+Part 0 | Epoch 00002 | Step 00120 | Loss 0.7218 | Train Acc 0.7446 | Speed (samples/sec) 738.3948 | GPU 17.2 GB | time 1.350 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 6038687232.000 MB, nvidia_smi_mem: 17.154 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.154 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.154 GB
+
+Part 0 | Epoch 00002 | Step 00140 | Loss 0.7071 | Train Acc 0.7434 | Speed (samples/sec) 739.1544 | GPU 17.2 GB | time 1.357 s
+max_device_mem 25307578368.000 MB, max_allocated_mem 5999518208.000 MB, nvidia_smi_mem: 17.167 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 6038687232.000 MB, nvidia_smi_mem: 17.167 GB
+max_device_mem 25307578368.000 MB, max_allocated_mem 5989606400.000 MB, nvidia_smi_mem: 17.167 GBmax_device_mem 25307578368.000 MB, max_allocated_mem 5978263040.000 MB, nvidia_smi_mem: 17.167 GB
+
+Part 0, Epoch Time(s): 215.8166, sample: 16.6437, feat_copy: 166.4816, forward: 6.8415, backward: 24.7374, model update: 0.7185, emb update: 0.0002 #seeds: 149504, #inputs: 133200393, #tot_num_w_feat: 133200393, #tot_num_wo_feat: 0
+Part 1, Epoch Time(s): 215.8166, sample: 16.6437, feat_copy: 166.4816, forward: 6.8415, backward: 24.7374, model update: 0.7185, emb update: 0.0002 #seeds: 149504, #inputs: 133306437, #tot_num_w_feat: 133306437, #tot_num_wo_feat: 0
+Part 3, Epoch Time(s): 215.8166, sample: 16.6437, feat_copy: 166.4816, forward: 6.8415, backward: 24.7374, model update: 0.7185, emb update: 0.0002 #seeds: 149504, #inputs: 133155299, #tot_num_w_feat: 133155299, #tot_num_wo_feat: 0
+Part 2, Epoch Time(s): 215.8166, sample: 16.6437, feat_copy: 166.4816, forward: 6.8415, backward: 24.7374, model update: 0.7185, emb update: 0.0002 #seeds: 149504, #inputs: 133106703, #tot_num_w_feat: 133106703, #tot_num_wo_feat: 0
+parent ends
+parent ends
+parent ends
+parent ends
+Client[1] in group[0] is exiting...
+Client[2] in group[0] is exiting...
+Client[3] in group[0] is exiting...
+Client[0] in group[0] is exiting...
+Namespace(backend='gloo', batch_size=1024, batch_size_eval=1024, cache_method='none', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn71.txt', local_rank=None, log_every=20, lr=0.0001, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, num_layers=3, pad_data=False, part_dir='partitions/heta/igb-full-small_1parts_depth_3', predict_category='paper', seed=42, sparse_lr=1e-05, standalone=False)
+gn71 Initializing DGL dist
+initialize, ntypes:  {'author': 0, 'conference': 1, 'fos': 2, 'institute': 3, 'journal': 4, 'paper': 5}
+Server is waiting for connections on [192.180.32.70:30051]...
+Server (0) shutdown.
+Server is exiting...
+start graph service on server 0 for part 0
+cleanupu process runs

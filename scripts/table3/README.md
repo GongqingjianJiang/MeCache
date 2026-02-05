@@ -1,0 +1,68 @@
+# table3
+
+CPU-GPU PCIe communication volume (GB) comparison for DGL, Heta and MeCache during the feature retrieval and embedding update phases in one epoch for R-GAT.
+
+## run
+
+First, place the logs from `DGL` and `Heta` (using nccl) and `MeCache` running R-GAT on all datasets into the `log` directory.  
+Specifically, logs from `baseline/dgl/run_all.py`, `baseline/heta/run_all.py` and `run_all_speed.py`.  
+Second, produce table 3.
+
+```bash
+python draw.py
+```
+
+## output
+
+Executing `draw.py` generates the console log as shown below.  
+
+```
+RGCN-MAG 1 DGL 2.9187936588004293 Heta 13.853278327657284
+RGCN-MAG 2 DGL 2.1020814748535 Heta 9.085364337914097
+RGCN-MAG 4 DGL 1.7667693776779383 Heta 7.193561065143209
+RGCN-ME 1 DGL 0.0 Heta 0.0
+RGCN-ME 2 DGL 0.0 Heta 0.0
+RGCN-ME 4 DGL 0.0 Heta 0.0
+RGCN-OM 1 DGL 0.0 Heta 0.0
+RGCN-OM 2 DGL 0.0 Heta 0.0
+RGCN-OM 4 DGL 0.0 Heta 0.0
+RGCN-SM 1 DGL 0.0 Heta 0.0
+RGCN-SM 2 DGL 0.0 Heta 0.0
+RGCN-SM 4 DGL 0.0 Heta 0.0
+RGCN-LA 1 DGL 3.1405819273473816 Heta 110529.76969712079
+RGCN-LA 2 DGL 3.1403669994807286 Heta 110509.01532624052
+RGCN-LA 4 DGL 3.1405957122510495 Heta 110517.44108153718
+RGAT-MAG 1 DGL 2.92041848661173 Heta 14.761668297151513
+RGAT-MAG 2 DGL 2.1025700040864255 Heta 9.623451761410937
+RGAT-MAG 4 DGL 1.8655666412867193 Heta 8.024079056975618
+RGAT-ME 1 DGL 0.0 Heta 0.0
+RGAT-ME 2 DGL 0.0 Heta 0.0
+RGAT-ME 4 DGL 0.0 Heta 0.0
+RGAT-OM 1 DGL 0.0 Heta 0.0
+RGAT-OM 2 DGL 0.0 Heta 0.0
+RGAT-OM 4 DGL 0.0 Heta 0.0
+RGAT-SM 1 DGL 0.0 Heta 0.0
+RGAT-SM 2 DGL 0.0 Heta 0.0
+RGAT-SM 4 DGL 0.0 Heta 0.0
+RGAT-LA 1 DGL 3.4076170706743305 Heta 119924.2147076963
+RGAT-LA 2 DGL 3.4072243390951855 Heta 119898.80658578189
+RGAT-LA 4 DGL 3.4070747390753913 Heta 119894.48124710789
+
+average transfer volumn DGL: 2.7005287221916467 Heta: 28.86476187480661
+
+average transfer volumn DGL: 0.5698416518048642 Heta: 2.605891785260527
+
+RGCN, DGL & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & \\
+RGCN, Heta & 9.98 & 14.98 & 17.47 & 21.07 & 23.14 & 24.56 & 6.37 & 6.37 & 6.37 & 72.71 & 72.73 & 72.75 & 0.00 & 0.00 & 0.00 & \\
+RGCN, DRGNN & 0.00 & 0.00 & 0.00 & 2.92 & 2.10 & 1.77 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 3.14 & 3.14 & 3.14 & \\
+RGAT, DGL & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 & \\
+RGAT, Heta & 9.98 & 14.98 & 17.47 & 19.78 & 21.85 & 23.25 & 5.08 & 5.08 & 5.08 & 76.36 & 76.39 & 76.40 & 0.00 & 0.00 & 0.00 & \\
+RGAT, DRGNN & 0.00 & 0.00 & 0.00 & 2.92 & 2.10 & 1.87 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 3.41 & 3.41 & 3.41 & \\
+
+RGCN, DGL & 351.17 & 351.20 & 349.83 & 1138.74 & 1138.77 & 1136.64 & 2035.79 & 2032.20 & 2032.90 & 4911.73 & 4909.68 & 4908.85 & 35194.04 & 35189.84 & 35189.96 & \\
+RGCN, Heta & 35.06 & 52.59 & 61.12 & 239.93 & 263.48 & 279.16 & 129.64 & 129.48 & 129.45 & 3571.27 & 3571.04 & 3571.00 & 1.00 & 1.00 & 1.00 & \\
+RGCN, DRGNN & 0.00 & 0.00 & 0.00 & 33.24 & 23.94 & 20.08 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1105.30 & 1105.09 & 1105.17 & \\
+RGAT, DGL & 351.17 & 351.20 & 349.89 & 1138.79 & 1138.70 & 1136.76 & 2035.84 & 2032.16 & 2032.62 & 4911.66 & 4909.92 & 4908.88 & 35192.98 & 35189.58 & 35189.86 & \\
+RGAT, Heta & 35.06 & 52.60 & 61.13 & 225.30 & 248.79 & 264.29 & 103.43 & 103.25 & 103.23 & 3750.61 & 3750.47 & 3750.63 & 1.00 & 1.00 & 1.00 & \\
+RGAT, DRGNN & 0.00 & 0.00 & 0.00 & 33.26 & 23.94 & 21.21 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 1199.24 & 1198.99 & 1198.94 & \\
+```

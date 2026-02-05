@@ -1,0 +1,4 @@
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 25291 ON gn70 CANCELLED AT 2026-02-04T14:55:33 ***
+slurmstepd: error: *** STEP 25291.0 ON gn70 CANCELLED AT 2026-02-04T14:55:33 ***
+srun: error: gn70: task 0: Terminated

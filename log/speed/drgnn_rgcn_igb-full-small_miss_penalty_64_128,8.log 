@@ -1,0 +1,460 @@
+The number of OMP threads per trainer is set to 8
+clientcmd source /gf3/home/jgqj/anaconda3/bin/activate hiscache;module add cuda/11.7;cd /gf3/home/jgqj/test_code/hydro; (export DGL_ROLE=server DGL_NUM_SAMPLER=0 OMP_NUM_THREADS=1 DGL_NUM_CLIENT=4 DGL_CONF_PATH=preprocess/igb-full-small/igb-full-small.json DGL_IP_CONFIG=ip_config_gn70.txt DGL_NUM_SERVER=1 DGL_GRAPH_FORMAT=csc DGL_KEEP_ALIVE=0  DGL_SERVER_ID=0; python3 train_dist.py --graph_name igb-full-small --root /datasets/gnn/dataset/IGB --model rgcn --ip_config ip_config_gn70.txt --num_epochs 3 --batch_size 1024 --n_classes 19 --predict_category paper --eval_every 1 --fan_out 5,10,15 --num_hidden 256 --embed_dim 64 --preprocess_dir preprocess --num_gpus 4 --dgl-sparse --cache-method miss_penalty --dropout 0.5 --batch_size_eval 1024 --reduction-level 128,8 --lr 0.01 --sparse-lr 0.01 --use_node_projs --no-test --ntypes-w-feats paper,author,institute,conference,fos,journal)
+clientcmd source /gf3/home/jgqj/anaconda3/bin/activate hiscache;module add cuda/11.7;cd /gf3/home/jgqj/test_code/hydro; (export DGL_DIST_MODE=distributed DGL_ROLE=client DGL_NUM_SAMPLER=0 DGL_NUM_CLIENT=4 DGL_CONF_PATH=preprocess/igb-full-small/igb-full-small.json DGL_IP_CONFIG=ip_config_gn70.txt DGL_NUM_SERVER=1 DGL_GRAPH_FORMAT=csc OMP_NUM_THREADS=8 DGL_GROUP_ID=0 ; python3 -m torch.distributed.launch --nproc_per_node=4 --nnodes=1 --node_rank=0 --master_addr=192.180.32.60 --master_port=1234 train_dist.py --graph_name igb-full-small --root /datasets/gnn/dataset/IGB --model rgcn --ip_config ip_config_gn70.txt --num_epochs 3 --batch_size 1024 --n_classes 19 --predict_category paper --eval_every 1 --fan_out 5,10,15 --num_hidden 256 --embed_dim 64 --preprocess_dir preprocess --num_gpus 4 --dgl-sparse --cache-method miss_penalty --dropout 0.5 --batch_size_eval 1024 --reduction-level 128,8 --lr 0.01 --sparse-lr 0.01 --use_node_projs --no-test --ntypes-w-feats paper,author,institute,conference,fos,journal)
+Namespace(backend='nccl', batch_size=1024, batch_size_eval=1024, cache_method='miss_penalty', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn70.txt', local_rank=0, log_every=20, lr=0.01, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, pad_data=False, predict_category='paper', preprocess_dir='preprocess', reduction_level='128,8', root='/datasets/gnn/dataset/IGB', seed=42, sparse_lr=0.01, standalone=False, use_node_projs=True)
+gn70 Initializing DGL dist
+Namespace(backend='nccl', batch_size=1024, batch_size_eval=1024, cache_method='miss_penalty', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn70.txt', local_rank=3, log_every=20, lr=0.01, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, pad_data=False, predict_category='paper', preprocess_dir='preprocess', reduction_level='128,8', root='/datasets/gnn/dataset/IGB', seed=42, sparse_lr=0.01, standalone=False, use_node_projs=True)
+gn70 Initializing DGL dist
+Namespace(backend='nccl', batch_size=1024, batch_size_eval=1024, cache_method='miss_penalty', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn70.txt', local_rank=2, log_every=20, lr=0.01, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, pad_data=False, predict_category='paper', preprocess_dir='preprocess', reduction_level='128,8', root='/datasets/gnn/dataset/IGB', seed=42, sparse_lr=0.01, standalone=False, use_node_projs=True)
+gn70 Initializing DGL dist
+Namespace(backend='nccl', batch_size=1024, batch_size_eval=1024, cache_method='miss_penalty', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn70.txt', local_rank=1, log_every=20, lr=0.01, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, pad_data=False, predict_category='paper', preprocess_dir='preprocess', reduction_level='128,8', root='/datasets/gnn/dataset/IGB', seed=42, sparse_lr=0.01, standalone=False, use_node_projs=True)
+gn70 Initializing DGL dist
+Client [2358463] waits on 192.180.32.60:53407
+Client [2358465] waits on 192.180.32.60:46979
+Client [2358464] waits on 192.180.32.60:43887
+Client [2358462] waits on 192.180.32.60:43503
+Machine (0) group (0) client (0) connect to server successfuly!
+Machine (0) group (0) client (1) connect to server successfuly!
+Machine (0) group (0) client (2) connect to server successfuly!
+Machine (0) group (0) client (3) connect to server successfuly!
+get world size 4
+rank 3, local rank 3, machine rank 0
+get world size 4
+rank 0, local rank 0, machine rank 0
+get world size 4
+get world size 4
+rank 1, local rank 1, machine rank 0
+rank 2, local rank 2, machine rank 0
+rank 1 device 1
+rank 2 device 2
+rank 3 device 3
+rank 0 device 0
+label_name= node_label_19.npy
+label: tensor([ 8., 12.,  8.,  ...,  2.,  3.,  8.])
+Number of relations: 11
+Number of class: 19
+Number of train: 600000
+Number of valid: 200000
+Number of test: 200000.0
+load dataset takes: 0.47812795639038086 sec
+transfering paper train_mask from bool to uint!
+transfering paper val_mask from bool to uint!
+transfering paper test_mask from bool to uint!
+copying graph to shared memory takes 0.916 seconds
+copying paper label to shared memory
+new_arr /igb-full-small_node_paper_label created! start to copy......
+new_arr shape=(1000000,), dtype=float32
+new_arr /igb-full-small_node_paper_label copy done
+copying paper label to shared memory done
+copying paper train_mask to shared memory
+new_arr /igb-full-small_node_paper_train_mask created! start to copy......
+new_arr shape=(1000000,), dtype=uint8
+new_arr /igb-full-small_node_paper_train_mask copy done
+copying paper train_mask to shared memory done
+copying paper val_mask to shared memory
+new_arr /igb-full-small_node_paper_val_mask created! start to copy......
+new_arr shape=(1000000,), dtype=uint8
+new_arr /igb-full-small_node_paper_val_mask copy done
+copying paper val_mask to shared memory done
+copying paper test_mask to shared memory
+new_arr /igb-full-small_node_paper_test_mask created! start to copy......
+new_arr shape=(1000000,), dtype=uint8
+new_arr /igb-full-small_node_paper_test_mask copy done
+copying paper test_mask to shared memory done
+copying node features to shared memory takes 0.006 seconds
+{'ndata_keys': {'author': [], 'conference': [], 'fos': [], 'institute': [], 'journal': [], 'paper': ['label', 'train_mask', 'val_mask', 'test_mask']}, 'edata_keys': {('author', 'affiliated_with', 'institute'): [], ('author', 'writes', 'paper'): [], ('conference', 'rev_venue', 'paper'): [], ('fos', 'rev_topic', 'paper'): [], ('institute', 'rev_affiliated_with', 'author'): [], ('journal', 'rev_published', 'paper'): [], ('paper', 'cites', 'paper'): [], ('paper', 'published', 'journal'): [], ('paper', 'rev_writes', 'author'): [], ('paper', 'topic', 'fos'): [], ('paper', 'venue', 'conference'): []}, 'ndata_shapes': {'author': {}, 'conference': {}, 'fos': {}, 'institute': {}, 'journal': {}, 'paper': {'label': torch.Size([1000000]), 'train_mask': torch.Size([1000000]), 'val_mask': torch.Size([1000000]), 'test_mask': torch.Size([1000000])}}, 'edata_shapes': {('author', 'affiliated_with', 'institute'): {}, ('author', 'writes', 'paper'): {}, ('conference', 'rev_venue', 'paper'): {}, ('fos', 'rev_topic', 'paper'): {}, ('institute', 'rev_affiliated_with', 'author'): {}, ('journal', 'rev_published', 'paper'): {}, ('paper', 'cites', 'paper'): {}, ('paper', 'published', 'journal'): {}, ('paper', 'rev_writes', 'author'): {}, ('paper', 'topic', 'fos'): {}, ('paper', 'venue', 'conference'): {}}, 'ndata_dtypes': {'author': {}, 'conference': {}, 'fos': {}, 'institute': {}, 'journal': {}, 'paper': {'label': torch.float32, 'train_mask': torch.uint8, 'val_mask': torch.uint8, 'test_mask': torch.uint8}}, 'edata_dtypes': {('author', 'affiliated_with', 'institute'): {}, ('author', 'writes', 'paper'): {}, ('conference', 'rev_venue', 'paper'): {}, ('fos', 'rev_topic', 'paper'): {}, ('institute', 'rev_affiliated_with', 'author'): {}, ('journal', 'rev_published', 'paper'): {}, ('paper', 'cites', 'paper'): {}, ('paper', 'published', 'journal'): {}, ('paper', 'rev_writes', 'author'): {}, ('paper', 'topic', 'fos'): {}, ('paper', 'venue', 'conference'): {}}}
+loading graph from shared memory takes 0.026 seconds
+Rank 1: loaded graph
+loading graph from shared memory takes 0.030 seconds
+loading graph from shared memory takes 0.030 seconds
+Rank 2: loaded graph
+Rank 3: loaded graph
+Rank 0: loaded graph
+train_nid.shape =  torch.Size([150000])
+test_nid.shape =  torch.Size([50000])
+fanouts: [5, 10, 15]
+train_nid.shape =  torch.Size([150000])
+test_nid.shape =  torch.Size([50000])
+fanouts: [5, 10, 15]
+train_nid.shape =  torch.Size([150000])
+test_nid.shape =  torch.Size([50000])
+fanouts: [5, 10, 15]
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+train_nid.shape =  torch.Size([150000])
+test_nid.shape =  torch.Size([50000])
+fanouts: [5, 10, 15]
+args.ntypes_w_feats: ['paper,author,institute,conference,fos,journal']
+recycled: 271
+recycled: 208
+recycled: 208
+recycled: 208
+mem_usage=2.7353248596191406GB
+rank 0 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+self.use_node_projs=True
+read file: journal.pkl
+content: <src.reduction.Feat object at 0x7f94c88d04d0>
+read file: conference.pkl
+content: <src.reduction.Feat object at 0x7f94c88d0f50>
+mem_usage=1.8028793334960938GB
+rank 2 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+read file: journal.pkl
+content: <src.reduction.Feat object at 0x7f1795aa9990>
+read file: conference.pkl
+content: <src.reduction.Feat object at 0x7f1795aa9bd0>
+mem_usage=1.7739601135253906GB
+rank 3 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+read file: journal.pkl
+content: <src.reduction.Feat object at 0x7fb05e9a69d0>
+read file: conference.pkl
+content: <src.reduction.Feat object at 0x7fb0623d9e10>
+mem_usage=1.7956352233886719GB
+rank 1 ntypes_w_feat: ['author', 'conference', 'fos', 'institute', 'journal', 'paper']
+read file: journal.pkl
+content: <src.reduction.Feat object at 0x7f102f3d0490>
+read file: conference.pkl
+content: <src.reduction.Feat object at 0x7f102bca6ad0>
+read file: author.pkl
+content: <src.reduction.Feat object at 0x7f94c88d01d0>
+read file: author.pkl
+content: <src.reduction.Feat object at 0x7f102bca6550>
+read file: author.pkl
+content: <src.reduction.Feat object at 0x7fb05e9a6f90>
+read file: author.pkl
+content: <src.reduction.Feat object at 0x7f17921e4250>
+read file: paper.pkl
+content: <src.reduction.Feat object at 0x7f94c8912d10>
+read file: paper.pkl
+content: <src.reduction.Feat object at 0x7f17921e4f90>
+read file: institute.pkl
+content: <src.reduction.Feat object at 0x7f94c88d0c90>
+read file: institute.pkl
+content: <src.reduction.Feat object at 0x7f17920e7550>
+read file: paper.pkl
+content: <src.reduction.Feat object at 0x7fb0622e54d0>
+read file: institute.pkl
+content: <src.reduction.Feat object at 0x7fb0622e9b50>
+read file: paper.pkl
+content: <src.reduction.Feat object at 0x7f102bca2d50>
+read file: institute.pkl
+content: <src.reduction.Feat object at 0x7f102f3c0bd0>
+read file: fos.pkl
+content: <src.reduction.Feat object at 0x7f17921bce10>
+read file: fos.pkl
+content: <src.reduction.Feat object at 0x7f9587ce9ed0>
+read file: fos.pkl
+content: <src.reduction.Feat object at 0x7fb0616ce110>
+read file: fos.pkl
+content: <src.reduction.Feat object at 0x7f102b94b510>
+node author has data feat, shape torch.Size([1926066, 8])
+node author has data feat, shape torch.Size([1926066, 8])
+node author has data feat, shape torch.Size([1926066, 8])
+node author has data feat, shape torch.Size([1926066, 8])
+Rank 0 part_size for author: 1926066
+Rank 1 part_size for author: 1926066
+Rank 2 part_size for author: 1926066
+Rank 3 part_size for author: 1926066
+cache total: 1926066, cache capacity: 1926066, cache memory size: 58.78 MB
+cache total: 1926066, cache capacity: 1926066, cache memory size: 58.78 MB
+cache total: 1926066, cache capacity: 1926066, cache memory size: 58.78 MB
+cache total: 1926066, cache capacity: 1926066, cache memory size: 58.78 MB
+init cache with data of shape 1926066, len(node_idx) = 1926066)
+init cache with data of shape 1926066, len(node_idx) = 1926066)
+init cache with data of shape 1926066, len(node_idx) = 1926066)
+init cache with data of shape 1926066, len(node_idx) = 1926066)
+node conference has data feat, shape torch.Size([1215, 8])
+Rank 1 part_size for conference: 1215
+cache total: 1215, cache capacity: 1215, cache memory size: 0.04 MB
+init cache with data of shape 1215, len(node_idx) = 1215)
+node fos has data feat, shape torch.Size([190449, 8])
+Rank 1 part_size for fos: 190449
+cache total: 190449, cache capacity: 190449, cache memory size: 5.81 MB
+init cache with data of shape 190449, len(node_idx) = 190449)
+node conference has data feat, shape torch.Size([1215, 8])
+Rank 0 part_size for conference: 1215
+node institute has data feat, shape torch.Size([14751, 8])
+Rank 1 part_size for institute: 14751
+cache total: 1215, cache capacity: 1215, cache memory size: 0.04 MB
+init cache with data of shape 1215, len(node_idx) = 1215)
+node fos has data feat, shape torch.Size([190449, 8])
+cache total: 14751, cache capacity: 14751, cache memory size: 0.45 MB
+Rank 0 part_size for fos: 190449
+init cache with data of shape 14751, len(node_idx) = 14751)
+node journal has data feat, shape torch.Size([15277, 8])
+Rank 1 part_size for journal: 15277
+cache total: 190449, cache capacity: 190449, cache memory size: 5.81 MB
+cache total: 15277, cache capacity: 15277, cache memory size: 0.47 MB
+init cache with data of shape 15277, len(node_idx) = 15277)
+init cache with data of shape 190449, len(node_idx) = 190449)
+node paper has data feat, shape torch.Size([1000000, 128])
+Rank 1 part_size for paper: 1000000
+node institute has data feat, shape torch.Size([14751, 8])
+Rank 0 part_size for institute: 14751
+node conference has data feat, shape torch.Size([1215, 8])
+Rank 2 part_size for conference: 1215
+node conference has data feat, shape torch.Size([1215, 8])
+Rank 3 part_size for conference: 1215
+cache total: 1215, cache capacity: 1215, cache memory size: 0.04 MB
+cache total: 14751, cache capacity: 14751, cache memory size: 0.45 MB
+init cache with data of shape 1215, len(node_idx) = 1215)
+init cache with data of shape 14751, len(node_idx) = 14751)
+cache total: 1215, cache capacity: 1215, cache memory size: 0.04 MB
+node fos has data feat, shape torch.Size([190449, 8])
+init cache with data of shape 1215, len(node_idx) = 1215)
+Rank 2 part_size for fos: 190449
+node journal has data feat, shape torch.Size([15277, 8])
+Rank 0 part_size for journal: 15277
+node fos has data feat, shape torch.Size([190449, 8])
+Rank 3 part_size for fos: 190449
+cache total: 15277, cache capacity: 15277, cache memory size: 0.47 MB
+init cache with data of shape 15277, len(node_idx) = 15277)
+cache total: 190449, cache capacity: 190449, cache memory size: 5.81 MB
+cache total: 190449, cache capacity: 190449, cache memory size: 5.81 MB
+node paper has data feat, shape torch.Size([1000000, 128])init cache with data of shape 190449, len(node_idx) = 190449)
+init cache with data of shape 190449, len(node_idx) = 190449)
+
+Rank 0 part_size for paper: 1000000
+node institute has data feat, shape torch.Size([14751, 8])
+Rank 2 part_size for institute: 14751
+cache total: 1000000, cache capacity: 1000000, cache memory size: 488.28 MB
+node institute has data feat, shape torch.Size([14751, 8])
+Rank 3 part_size for institute: 14751
+cache total: 14751, cache capacity: 14751, cache memory size: 0.45 MB
+cache total: 14751, cache capacity: 14751, cache memory size: 0.45 MB
+init cache with data of shape 14751, len(node_idx) = 14751)
+init cache with data of shape 14751, len(node_idx) = 14751)
+node journal has data feat, shape torch.Size([15277, 8])
+Rank 2 part_size for journal: 15277
+node journal has data feat, shape torch.Size([15277, 8])
+Rank 3 part_size for journal: 15277
+init cache with data of shape 1000000, len(node_idx) = 1000000)
+cache total: 15277, cache capacity: 15277, cache memory size: 0.47 MB
+cache total: 1000000, cache capacity: 1000000, cache memory size: 488.28 MB
+cache total: 15277, cache capacity: 15277, cache memory size: 0.47 MB
+init cache with data of shape 15277, len(node_idx) = 15277)
+init cache with data of shape 15277, len(node_idx) = 15277)
+node paper has data feat, shape torch.Size([1000000, 128])
+node paper has data feat, shape torch.Size([1000000, 128])
+Rank 2 part_size for paper: 1000000
+Rank 3 part_size for paper: 1000000
+init cache with data of shape 1000000, len(node_idx) = 1000000)
+cache total: 1000000, cache capacity: 1000000, cache memory size: 488.28 MB
+cache total: 1000000, cache capacity: 1000000, cache memory size: 488.28 MB
+init cache with data of shape 1000000, len(node_idx) = 1000000)
+init cache with data of shape 1000000, len(node_idx) = 1000000)
+created RGCN with etypes: ['affiliated_with', 'writes', 'rev_venue', 'rev_topic', 'rev_affiliated_with', 'rev_published', 'cites', 'published', 'rev_writes', 'topic', 'venue'], some will be set requires_grad=False
+created RGCN with etypes: ['affiliated_with', 'writes', 'rev_venue', 'rev_topic', 'rev_affiliated_with', 'rev_published', 'cites', 'published', 'rev_writes', 'topic', 'venue'], some will be set requires_grad=False
+1's layer affiliated_with requires_grad=False
+2's layer affiliated_with requires_grad=False
+2's layer rev_affiliated_with requires_grad=False
+2's layer published requires_grad=False
+2's layer rev_writes requires_grad=False
+2's layer topic requires_grad=False
+2's layer venue requires_grad=False
+created RGCN with etypes: ['affiliated_with', 'writes', 'rev_venue', 'rev_topic', 'rev_affiliated_with', 'rev_published', 'cites', 'published', 'rev_writes', 'topic', 'venue'], some will be set requires_grad=False
+created RGCN with etypes: ['affiliated_with', 'writes', 'rev_venue', 'rev_topic', 'rev_affiliated_with', 'rev_published', 'cites', 'published', 'rev_writes', 'topic', 'venue'], some will be set requires_grad=False
+Rank 2: created modelRank 3: created model
+
+Rank 2: before embed_layer DDP
+Rank 3: before embed_layer DDP
+Rank 1: created model
+Rank 0: created model
+Rank 1: before embed_layer DDP
+Rank 0: before embed_layer DDP
+Rank 1: after embed_layer DDP
+Rank 3: after embed_layer DDP
+Rank 2: after embed_layer DDP
+Rank 0: after embed_layer DDP
+recycled: 0
+recycled: 0
+recycled: 0
+recycled: 0
+mem_usage=2.463531494140625GB
+Rank 1 optimize DGL dense embedding: odict_keys(['author_8', 'conference_8', 'fos_8', 'institute_8', 'journal_8', 'paper_128'])
+mem_usage=2.4416122436523438GB
+mem_usage=2.4704360961914062GB
+Rank 3 optimize DGL dense embedding: odict_keys(['author_8', 'conference_8', 'fos_8', 'institute_8', 'journal_8', 'paper_128'])
+Rank 2 optimize DGL dense embedding: odict_keys(['author_8', 'conference_8', 'fos_8', 'institute_8', 'journal_8', 'paper_128'])
+mem_usage=3.3183746337890625GB
+Rank 0 optimize DGL dense embedding: odict_keys(['author_8', 'conference_8', 'fos_8', 'institute_8', 'journal_8', 'paper_128'])
+recycled: 0
+Rank 1: start training
+recycled: 0
+Rank 3: start training
+recycled: 0
+Rank 2: start training
+recycled: 0
+Rank 0: start training
+Part 0 | Epoch 00000 | Step 00000 | Loss 3.0580 | Train Acc 0.0310 | Speed (samples/sec) nan | GPU 4.4 GB | time 2.140 s
+max_device_mem 24135.188 MB, max_allocated_mem 2863.920 MB, nvidia_smi_mem: 4.373 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2883.229 MB, nvidia_smi_mem: 4.373 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2869.275 MB, nvidia_smi_mem: 4.373 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2904.742 MB, nvidia_smi_mem: 4.373 GB
+Part 0 | Epoch 00000 | Step 00020 | Loss 1.1358 | Train Acc 0.6467 | Speed (samples/sec) 6059.1343 | GPU 5.2 GB | time 0.172 s
+max_device_mem 24135.188 MB, max_allocated_mem 2919.065 MB, nvidia_smi_mem: 5.191 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2922.435 MB, nvidia_smi_mem: 5.191 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2899.464 MB, nvidia_smi_mem: 5.191 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2928.619 MB, nvidia_smi_mem: 5.191 GB
+Part 0 | Epoch 00000 | Step 00040 | Loss 0.8257 | Train Acc 0.7192 | Speed (samples/sec) 6223.6665 | GPU 5.2 GB | time 0.162 s
+max_device_mem 24135.188 MB, max_allocated_mem 2922.896 MB, nvidia_smi_mem: 5.189 GBmax_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.189 GB
+
+max_device_mem 24135.188 MB, max_allocated_mem 2922.435 MB, nvidia_smi_mem: 5.189 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2919.065 MB, nvidia_smi_mem: 5.189 GB
+Part 0 | Epoch 00000 | Step 00060 | Loss 0.7614 | Train Acc 0.7295 | Speed (samples/sec) 6242.8783 | GPU 5.9 GB | time 0.166 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.851 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.851 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2922.896 MB, nvidia_smi_mem: 5.851 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.851 GB
+Part 0 | Epoch 00000 | Step 00080 | Loss 0.7284 | Train Acc 0.7456 | Speed (samples/sec) 6264.1819 | GPU 5.8 GB | time 0.164 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.845 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2922.896 MB, nvidia_smi_mem: 5.845 GBmax_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.845 GB
+
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.845 GB
+Part 0 | Epoch 00000 | Step 00100 | Loss 0.7064 | Train Acc 0.7539 | Speed (samples/sec) 6260.8549 | GPU 5.8 GB | time 0.166 s
+max_device_mem 24135.188 MB, max_allocated_mem 2931.297 MB, nvidia_smi_mem: 5.841 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.841 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.841 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.841 GB
+Part 0 | Epoch 00000 | Step 00120 | Loss 0.6933 | Train Acc 0.7498 | Speed (samples/sec) 6280.1469 | GPU 5.8 GB | time 0.162 s
+max_device_mem 24135.188 MB, max_allocated_mem 2931.297 MB, nvidia_smi_mem: 5.849 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.849 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.849 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.849 GB
+Part 0 | Epoch 00000 | Step 00140 | Loss 0.6914 | Train Acc 0.7515 | Speed (samples/sec) 6290.2842 | GPU 5.8 GB | time 0.163 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.845 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2931.604 MB, nvidia_smi_mem: 5.845 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.845 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.845 GB
+Part 2, Epoch Time(s): 43.3773, sample: 18.3066, feat_copy: 3.4687, forward: 7.0807, backward: 11.4962, model update: 0.8420, emb update: 0.0002 #seeds: 149504, #inputs: 133706444, #tot_num_w_feat: 133706444, #tot_num_wo_feat: 0
+Part 2, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 2, feature_retrieval_cnt: {'author': 45501704, 'conference': 56664, 'fos': 10873320, 'institute': 458292, 'journal': 1128936, 'paper': 75687528}
+Part 0, Epoch Time(s): 43.3580, sample: 18.3861, feat_copy: 3.4823, forward: 7.1412, backward: 11.2566, model update: 0.8934, emb update: 0.0002 #seeds: 149504, #inputs: 133850163, #tot_num_w_feat: 133850163, #tot_num_wo_feat: 0
+Part 3, Epoch Time(s): 43.3804, sample: 18.2571, feat_copy: 3.5240, forward: 6.9698, backward: 11.5573, model update: 0.8814, emb update: 0.0002 #seeds: 149504, #inputs: 133798770, #tot_num_w_feat: 133798770, #tot_num_wo_feat: 0
+Part 0, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 0, feature_retrieval_cnt: {'author': 45570817, 'conference': 55743, 'fos': 10871690, 'institute': 458237, 'journal': 1129920, 'paper': 75763756}
+Part 3, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 3, feature_retrieval_cnt: {'author': 45539080, 'conference': 55565, 'fos': 10874977, 'institute': 458331, 'journal': 1130230, 'paper': 75740587}
+Part 1, Epoch Time(s): 43.4038, sample: 14.3861, feat_copy: 3.1031, forward: 7.2560, backward: 15.6350, model update: 0.8645, emb update: 0.0001 #seeds: 149504, #inputs: 133905546, #tot_num_w_feat: 133905546, #tot_num_wo_feat: 0
+Part 1, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 1, feature_retrieval_cnt: {'author': 45581936, 'conference': 55953, 'fos': 10875108, 'institute': 458498, 'journal': 1129576, 'paper': 75804475}
+Part 0 | Epoch 00001 | Step 00000 | Loss 0.7300 | Train Acc 0.7371 | Speed (samples/sec) 6298.9413 | GPU 5.8 GB | time 0.160 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.849 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2931.604 MB, nvidia_smi_mem: 5.849 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.849 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.849 GB
+Part 0 | Epoch 00001 | Step 00020 | Loss 0.7129 | Train Acc 0.7456 | Speed (samples/sec) 6313.3670 | GPU 5.8 GB | time 0.161 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 5.847 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 5.847 GBmax_device_mem 24135.188 MB, max_allocated_mem 2931.604 MB, nvidia_smi_mem: 5.847 GB
+
+max_device_mem 24135.188 MB, max_allocated_mem 2932.998 MB, nvidia_smi_mem: 5.847 GB
+Part 0 | Epoch 00001 | Step 00040 | Loss 0.6903 | Train Acc 0.7542 | Speed (samples/sec) 6334.4863 | GPU 6.5 GB | time 0.159 s
+max_device_mem 24135.188 MB, max_allocated_mem 2931.604 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.505 GB
+Part 0 | Epoch 00001 | Step 00060 | Loss 0.6851 | Train Acc 0.7583 | Speed (samples/sec) 6331.8990 | GPU 6.5 GB | time 0.166 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2931.604 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.505 GB
+Part 0 | Epoch 00001 | Step 00080 | Loss 0.6854 | Train Acc 0.7510 | Speed (samples/sec) 6337.4229 | GPU 6.5 GB | time 0.162 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2931.604 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.507 GB
+Part 0 | Epoch 00001 | Step 00100 | Loss 0.7005 | Train Acc 0.7461 | Speed (samples/sec) 6344.6051 | GPU 6.5 GB | time 0.161 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.507 GB
+Part 0 | Epoch 00001 | Step 00120 | Loss 0.6881 | Train Acc 0.7544 | Speed (samples/sec) 6351.0134 | GPU 6.5 GB | time 0.160 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.503 GB
+Part 0 | Epoch 00001 | Step 00140 | Loss 0.6473 | Train Acc 0.7610 | Speed (samples/sec) 6358.0809 | GPU 6.5 GB | time 0.160 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.503 GBmax_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.503 GB
+
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.503 GB
+Part 0, Epoch Time(s): 40.4672, sample: 17.9331, feat_copy: 2.8439, forward: 6.8691, backward: 10.9262, model update: 0.8678, emb update: 0.0002 #seeds: 149504, #inputs: 133804808, #tot_num_w_feat: 133804808, #tot_num_wo_feat: 0
+Part 0, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 0, feature_retrieval_cnt: {'author': 45549181, 'conference': 55479, 'fos': 10874391, 'institute': 458199, 'journal': 1130283, 'paper': 75737275}
+Part 3, Epoch Time(s): 40.4676, sample: 17.7307, feat_copy: 2.8243, forward: 6.8051, backward: 11.2292, model update: 0.8313, emb update: 0.0002 #seeds: 149504, #inputs: 133777289, #tot_num_w_feat: 133777289, #tot_num_wo_feat: 0
+Part 3, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 3, feature_retrieval_cnt: {'author': 45529126, 'conference': 55674, 'fos': 10873778, 'institute': 457725, 'journal': 1130092, 'paper': 75730894}
+Part 2, Epoch Time(s): 40.4738, sample: 17.9618, feat_copy: 2.8599, forward: 6.7817, backward: 11.0094, model update: 0.8331, emb update: 0.0002 #seeds: 149504, #inputs: 133730820, #tot_num_w_feat: 133730820, #tot_num_wo_feat: 0
+Part 2, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 2, feature_retrieval_cnt: {'author': 45509904, 'conference': 56735, 'fos': 10873604, 'institute': 457782, 'journal': 1130145, 'paper': 75702650}
+Part 1, Epoch Time(s): 40.4691, sample: 13.9199, feat_copy: 2.4008, forward: 6.8993, backward: 15.5003, model update: 0.8027, emb update: 0.0001 #seeds: 149504, #inputs: 133877309, #tot_num_w_feat: 133877309, #tot_num_wo_feat: 0
+Part 1, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 1, feature_retrieval_cnt: {'author': 45572429, 'conference': 55982, 'fos': 10870244, 'institute': 457918, 'journal': 1129950, 'paper': 75790786}
+Part 0 | Epoch 00002 | Step 00000 | Loss 0.6520 | Train Acc 0.7620 | Speed (samples/sec) 6357.1304 | GPU 6.5 GB | time 0.165 s
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.505 GB
+Part 0 | Epoch 00002 | Step 00020 | Loss 0.6457 | Train Acc 0.7644 | Speed (samples/sec) 6364.6813 | GPU 6.5 GB | time 0.159 s
+max_device_mem 24135.188 MB, max_allocated_mem 2933.188 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.503 GB
+Part 0 | Epoch 00002 | Step 00040 | Loss 0.6880 | Train Acc 0.7480 | Speed (samples/sec) 6370.4770 | GPU 6.5 GB | time 0.160 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.511 GBmax_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.511 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.511 GB
+
+max_device_mem 24135.188 MB, max_allocated_mem 2960.347 MB, nvidia_smi_mem: 6.511 GB
+Part 0 | Epoch 00002 | Step 00060 | Loss 0.6479 | Train Acc 0.7664 | Speed (samples/sec) 6373.8948 | GPU 6.5 GB | time 0.161 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.503 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2960.347 MB, nvidia_smi_mem: 6.503 GB
+Part 0 | Epoch 00002 | Step 00080 | Loss 0.6569 | Train Acc 0.7644 | Speed (samples/sec) 6378.9379 | GPU 6.5 GB | time 0.160 s
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.517 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.517 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.517 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2960.347 MB, nvidia_smi_mem: 6.517 GB
+Part 0 | Epoch 00002 | Step 00100 | Loss 0.6587 | Train Acc 0.7588 | Speed (samples/sec) 6383.7740 | GPU 6.5 GB | time 0.160 s
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2960.347 MB, nvidia_smi_mem: 6.507 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.507 GB
+Part 0 | Epoch 00002 | Step 00120 | Loss 0.6498 | Train Acc 0.7581 | Speed (samples/sec) 6385.1680 | GPU 6.5 GB | time 0.161 s
+max_device_mem 24135.188 MB, max_allocated_mem 2960.347 MB, nvidia_smi_mem: 6.501 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.501 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.501 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.501 GB
+Part 0 | Epoch 00002 | Step 00140 | Loss 0.6600 | Train Acc 0.7520 | Speed (samples/sec) 6387.7315 | GPU 6.5 GB | time 0.161 s
+max_device_mem 24135.188 MB, max_allocated_mem 2960.347 MB, nvidia_smi_mem: 6.505 GB
+max_device_mem 24135.188 MB, max_allocated_mem 2934.887 MB, nvidia_smi_mem: 6.505 GBmax_device_mem 24135.188 MB, max_allocated_mem 2932.508 MB, nvidia_smi_mem: 6.505 GB
+
+max_device_mem 24135.188 MB, max_allocated_mem 2944.935 MB, nvidia_smi_mem: 6.505 GB
+Part 3, Epoch Time(s): 40.3984, sample: 17.9127, feat_copy: 2.8279, forward: 6.7716, backward: 11.0049, model update: 0.8380, emb update: 0.0002 #seeds: 149504, #inputs: 133770074, #tot_num_w_feat: 133770074, #tot_num_wo_feat: 0
+Part 3, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 3, feature_retrieval_cnt: {'author': 45525355, 'conference': 55843, 'fos': 10874490, 'institute': 457784, 'journal': 1130157, 'paper': 75726445}
+Part 2, Epoch Time(s): 40.3959, sample: 17.9899, feat_copy: 2.8292, forward: 6.7089, backward: 10.9991, model update: 0.8284, emb update: 0.0002 #seeds: 149504, #inputs: 133701966, #tot_num_w_feat: 133701966, #tot_num_wo_feat: 0
+Part 2, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 2, feature_retrieval_cnt: {'author': 45496857, 'conference': 56640, 'fos': 10875579, 'institute': 457867, 'journal': 1130032, 'paper': 75684991}
+Part 0, Epoch Time(s): 40.4012, sample: 17.8272, feat_copy: 2.8439, forward: 6.7538, backward: 11.0821, model update: 0.8603, emb update: 0.0002 #seeds: 149504, #inputs: 133807299, #tot_num_w_feat: 133807299, #tot_num_wo_feat: 0
+Part 0, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 0, feature_retrieval_cnt: {'author': 45551783, 'conference': 55748, 'fos': 10869072, 'institute': 458822, 'journal': 1130427, 'paper': 75741447}
+Part 1, Epoch Time(s): 40.3975, sample: 14.1354, feat_copy: 2.4401, forward: 6.9225, backward: 15.1613, model update: 0.7775, emb update: 0.0001 #seeds: 149504, #inputs: 133905882, #tot_num_w_feat: 133905882, #tot_num_wo_feat: 0
+Part 1, gpu cache read hit rate: {'author': '100.00', 'conference': '100.00', 'fos': '100.00', 'institute': '100.00', 'journal': '100.00', 'paper': '100.00'}
+Part 1, feature_retrieval_cnt: {'author': 45591558, 'conference': 56099, 'fos': 10873740, 'institute': 458280, 'journal': 1130002, 'paper': 75796203}
+parent ends
+parent ends
+parent ends
+parent ends
+Client[2] in group[0] is exiting...
+Client[1] in group[0] is exiting...
+Client[0] in group[0] is exiting...
+Client[3] in group[0] is exiting...
+Namespace(backend='nccl', batch_size=1024, batch_size_eval=1024, cache_method='miss_penalty', dgl_sparse=True, dropout=0.5, embed_dim=64, eval_every=1, fan_out='5,10,15', graph_name='igb-full-small', id=None, ip_config='ip_config_gn70.txt', local_rank=None, log_every=20, lr=0.01, model='rgcn', n_classes=19, no_sampling=False, no_test=True, ntypes_w_feats=['paper,author,institute,conference,fos,journal'], num_epochs=3, num_gpus=4, num_hidden=256, pad_data=False, predict_category='paper', preprocess_dir='preprocess', reduction_level='128,8', root='/datasets/gnn/dataset/IGB', seed=42, sparse_lr=0.01, standalone=False, use_node_projs=True)
+gn70 Initializing DGL dist
+initialize, ntypes:  {'author': 0, 'conference': 1, 'fos': 2, 'institute': 3, 'journal': 4, 'paper': 5}
+Server is waiting for connections on [192.180.32.60:30051]...
+Server (0) shutdown.
+Server is exiting...
+start graph service on server 0 for part 0
+cleanupu process runs
